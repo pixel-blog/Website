@@ -10,13 +10,14 @@ export default {
     this.$watch(
         () => this.$route.params,
         () => {
-          this.fetchData()
+          this.fetchPost();
+          this.fetchComments();
         },
         { immediate: true }
     )
   },
   methods: {
-    fetchData() {
+    fetchPost() {
       fetch(Routes.getPost(this.$route.params.id), {
         method: "GET",
         headers: {
@@ -33,40 +34,55 @@ export default {
         this.dislikes = res.dislikes;
         this.postedAt = new Date(res.created);
       });
+    },
+    fetchComments() {
+      fetch(Routes.getPostComments(this.$route.params.id), {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      }).then(res => res.json()).then((res) => {
+        this.comments = res.map((comment, index) => {
+          const onLike = (add) => {
+            add ? comment.likes++ : comment.likes--;
+            this.comments[index] = commentToCommentData();
+          };
+
+          const onDislike = (add) => {
+            add ? comment.dislikes++ : comment.dislikes--;
+            this.comments[index] = commentToCommentData();
+          };
+
+          function commentToCommentData() {
+            return {
+              id: comment.id,
+              user: {
+                avatarURL: comment.avatar,
+                username: comment.username ? `@${comment.username}` : "Missing username"
+              },
+              message: comment.content,
+              likes: comment.likes,
+              dislikes: comment.dislikes,
+              onLike,
+              onDislike
+            };
+          }
+
+          return commentToCommentData();
+        });
+      });
     }
   },
   data() {
     return {
-      comments: [
-        {
-          user: {
-            avatarURL: "https://picsum.photos/256",
-            username: "someuser"
-          },
-          message: "Lorem ipsum dolor sit amet consectetur."
-        },
-        {
-          user: {
-            avatarURL: "https://picsum.photos/256",
-            username: "someuser"
-          },
-          message: "Lorem ipsum dolor sit amet consectetur."
-        },
-        {
-          user: {
-            avatarURL: "https://picsum.photos/256",
-            username: "someuser"
-          },
-          message: "Lorem ipsum dolor sit amet consectetur."
-        }
-      ],
+      comments: [],
       user: {
         avatarURL: "https://picsum.photos/256",
         username: "someuser"
       },
       title: "Lorem ipsum dolor sit amet",
       content: "",
-      thumbnailURL: "https://picsum.photos/900/320",
+      thumbnailURL: null,
       postedAt: new Date(),
       likes: 0,
       dislikes: 0,
@@ -85,6 +101,9 @@ export default {
   <div class="blog-content">
     <div class="blog-article">
       <BlogArticle
+          @like="(add) => add ? likes++ : likes--"
+          @dislike="(add) => add ? dislikes++ : dislikes--"
+          :id="this.$route.params.id"
           :title="title"
           :thumb-src="thumbnailURL"
           :posted-at="postedAt"

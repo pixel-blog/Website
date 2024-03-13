@@ -1,8 +1,12 @@
 <script>
 import BlogPost from "@/components/BlogPost.vue";
+import {Routes} from "@/util/routes.js";
 
 export default {
   name: "RecentPosts",
+  mounted() {
+    this.fetchPosts();
+  },
   data() {
     return {
       posts: new Array(4).fill({
@@ -11,6 +15,22 @@ export default {
         url: "./blog/1"
       })
     };
+  },
+  methods: {
+    fetchPosts() {
+      fetch(Routes.getAllPosts(1), {
+        method: "GET",
+        headers: {
+          "Accept": "application/json"
+        }
+      }).then(res => res.json()).then((posts) => {
+        this.posts = posts.map((post) => ({
+          thumbSrc: "",
+          title: post.title,
+          url: `./#/blog/${post.id}`
+        }));
+      });
+    }
   },
   components: {BlogPost}
 }

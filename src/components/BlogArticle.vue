@@ -20,6 +20,10 @@ export default {
     };
   },
   props: {
+    id: {
+      type: String,
+      required: true
+    },
     thumbSrc: {
       type: String,
       required: true
@@ -47,20 +51,30 @@ export default {
       type: Number,
       required: true
     }
+  },
+  methods: {
+    onLike() {
+      // TODO: Send request to add/remove like
+      this.$emit("like", true);
+    },
+    onDislike() {
+      // TODO: Send request to add/remove dislike
+      this.$emit("dislike", true);
+    }
   }
 }
 </script>
 
 <template>
 <article>
-  <img class="thumbnail" :src="thumbSrc" alt="Thumb">
+  <img class="thumbnail" :src="thumbSrc" alt="Thumbnail of the blog post">
   <h1>{{title}}</h1>
   <div class="author">
     <img :src="author.avatarURL" alt="">
     <div>
       <p class="author-name">{{author.name}}</p>
       <p class="posted-at">{{formatter.format(postedAt)}}</p>
-      <LikeDislike :likes="likes" :dislikes="dislikes" />
+      <LikeDislike @like="onLike" @dislike="onDislike" :likes="likes" :dislikes="dislikes" />
     </div>
   </div>
   <p class="content"><slot></slot></p>

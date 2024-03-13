@@ -20,8 +20,8 @@ export default {
 
 <template>
 <div class="likes-main">
-  <span><button><IconLike /></button><span>{{likes}}</span></span>
-  <span><button><IconDislike /></button><span>{{dislikes}}</span></span>
+  <span><button @click="$emit('like')"><IconLike /></button><span>{{likes}}</span></span>
+  <span><button @click="$emit('dislike')"><IconDislike /></button><span>{{dislikes}}</span></span>
 </div>
 </template>
 

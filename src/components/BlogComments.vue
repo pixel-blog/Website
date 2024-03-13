@@ -8,8 +8,15 @@ interface User {
 }
 
 interface Comment {
+  id: string;
   user: User;
   message: string;
+  likes: number;
+  dislikes: number;
+
+  onLike(add: boolean): void;
+
+  onDislike(add: boolean): void;
 }
 
 export default {
@@ -35,10 +42,12 @@ export default {
               !Array.isArray(value) &&
               value !== null;
           return isObject(val) &&
-          isObject(val.user) &&
-          "avatarURL" in val.user &&
-          "username" in val.user &&
-          "message" in val
+              isObject(val.user) &&
+              "avatarURL" in val.user &&
+              "username" in val.user &&
+              "message" in val &&
+              "likes" in val &&
+              "dislikes" in val
         });
       }
     },
@@ -54,19 +63,21 @@ export default {
 </script>
 
 <template>
-<div class="comments-main">
-  <h2>{{comments.length}} Comments</h2>
-  <div class="comment post-comment">
-    <img :src="user.avatarURL" :alt="user.username + ' avatar'">
-    <form @submit="postComment">
-      <input type="text" v-model="comment" placeholder="Add a comment...">
-      <input type="submit" value="Comment">
-    </form>
+  <div class="comments-main">
+    <h2>{{ comments.length }} Comments</h2>
+    <div class="comment post-comment">
+      <img :src="user.avatarURL" :alt="user.username + ' avatar'">
+      <form @submit="postComment">
+        <input type="text" v-model="comment" placeholder="Add a comment...">
+        <input type="submit" value="Comment">
+      </form>
+    </div>
+    <div class="comment" v-for="comment in comments">
+      <Comment @like="comment.onLike" @dislike="comment.onDislike" :id="comment.id" :likes="comment.likes"
+               :dislikes="comment.dislikes" :avatar-url="comment.user.avatarURL"
+               :username="comment.user.username" :message="comment.message"/>
+    </div>
   </div>
-  <div class="comment" v-for="comment in comments">
-    <Comment :avatar-url="comment.user.avatarURL" :username="comment.user.username" :message="comment.message" />
-  </div>
-</div>
 </template>
 
 <style scoped>

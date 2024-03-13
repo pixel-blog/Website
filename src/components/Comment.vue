@@ -5,6 +5,10 @@ export default {
   name: "Comment",
   components: {LikeDislike},
   props: {
+    id: {
+      type: String,
+      required: true
+    },
     avatarUrl: {
       type: String,
       required: true
@@ -16,6 +20,24 @@ export default {
     message: {
       type: String,
       required: true
+    },
+    likes: {
+      type: Number,
+      required: true
+    },
+    dislikes: {
+      type: Number,
+      required: true
+    }
+  },
+  methods: {
+    onLike() {
+      // TODO: Send request to add/remove like
+      this.$emit("like", true);
+    },
+    onDislike() {
+      // TODO: Send request to add/remove like
+      this.$emit("dislike", true);
     }
   }
 }
@@ -25,9 +47,9 @@ export default {
 <div class="comment-main">
   <img :src="avatarUrl" :alt="username + ' avatar'">
   <div>
-    <p>@{{username}}</p>
+    <p>{{username}}</p>
     <p>{{message}}</p>
-    <LikeDislike :likes="10" :dislikes="10" />
+    <LikeDislike @like="onLike" @dislike="onDislike" :likes="likes" :dislikes="dislikes" />
   </div>
 </div>
 </template>

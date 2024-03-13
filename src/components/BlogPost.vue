@@ -21,7 +21,7 @@ export default {
 <template>
 <div>
   <a :href="url">
-    <img :src="thumbSrc" alt="Thumb">
+    <img :src="thumbSrc" alt="Thumbnail of the blog post">
     <h3>{{title}}</h3>
   </a>
 </div>
