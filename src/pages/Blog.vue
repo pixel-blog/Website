@@ -32,7 +32,6 @@ export default {
         this.likes = res.likes;
         this.dislikes = res.dislikes;
         this.postedAt = new Date(res.created);
-        console.log(res);
       });
     }
   },

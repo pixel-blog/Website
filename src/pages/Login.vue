@@ -22,7 +22,6 @@ export default {
         },
         body: requestBody,
       });
-      console.log(response);
     }
   }
 }
