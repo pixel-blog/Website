@@ -77,18 +77,18 @@ export default {
     return {
       comments: [],
       user: {
-        avatarURL: "https://picsum.photos/256",
-        username: "someuser"
+        avatarURL: "",
+        username: ""
       },
-      title: "Lorem ipsum dolor sit amet",
+      title: "",
       content: "",
       thumbnailURL: null,
-      postedAt: new Date(),
+      postedAt: null,
       likes: 0,
       dislikes: 0,
       author: {
-        avatarURL: "https://picsum.photos/256",
-        name: "Author name"
+        avatarURL: "",
+        name: ""
       }
     };
   },
