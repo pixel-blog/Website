@@ -9,11 +9,7 @@ export default {
   },
   data() {
     return {
-      posts: new Array(4).fill({
-        thumbSrc: "https://picsum.photos/900/320",
-        title: "Lorem ipsum dolor sit amet consectetur. Nulla tortor aliquet massa ut ut vitae.",
-        url: "./blog/1"
-      })
+      posts: []
     };
   },
   methods: {
