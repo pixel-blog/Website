@@ -1,9 +1,28 @@
 <script>
+import {Routes} from "@/util/routes.js";
+
 export default {
   name: "Login",
+  data() {
+    return {
+      identity: "",
+      password: ""
+    };
+  },
   methods: {
-    login() {
-      void 0;
+    async login() {
+      const requestBody = JSON.stringify({
+        identity: this.identity,
+        password: this.password
+      });
+      const response = await fetch(Routes.loginAccount(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: requestBody,
+      });
+      console.log(response);
     }
   }
 }
@@ -14,10 +33,10 @@ export default {
     <form @submit="login">
       <h2>Login</h2>
       <div class="mb-3">
-        <input type="text" placeholder="Enter your username or email" aria-label="Username or Email">
+        <input v-model="identity" type="text" placeholder="Enter your username or email" aria-label="Username or Email">
       </div>
       <div class="mb-3">
-        <input type="password" placeholder="Enter your password" aria-label="Password">
+        <input v-model="password" type="password" placeholder="Enter your password" aria-label="Password">
       </div>
       <input type="submit" value="Login">
     </form>

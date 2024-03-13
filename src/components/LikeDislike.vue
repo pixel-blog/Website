@@ -4,14 +4,24 @@ import IconDislike from "@/components/icons/IconDislike.vue";
 
 export default {
   name: "LikeDislike",
+  props: {
+    likes: {
+      type: Number,
+      required: true
+    },
+    dislikes: {
+      type: Number,
+      required: true
+    }
+  },
   components: {IconDislike, IconLike}
 }
 </script>
 
 <template>
 <div class="likes-main">
-  <span><button><IconLike /></button><span>10</span></span>
-  <span><button><IconDislike /></button><span>10</span></span>
+  <span><button><IconLike /></button><span>{{likes}}</span></span>
+  <span><button><IconDislike /></button><span>{{dislikes}}</span></span>
 </div>
 </template>
 

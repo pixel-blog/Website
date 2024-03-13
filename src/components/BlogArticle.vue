@@ -38,6 +38,14 @@ export default {
     postedAt: {
       type: Date as PropType<Date>,
       required: true
+    },
+    likes: {
+      type: Number,
+      required: true
+    },
+    dislikes: {
+      type: Number,
+      required: true
     }
   }
 }
@@ -52,7 +60,7 @@ export default {
     <div>
       <p class="author-name">{{author.name}}</p>
       <p class="posted-at">{{formatter.format(postedAt)}}</p>
-      <LikeDislike />
+      <LikeDislike :likes="likes" :dislikes="dislikes" />
     </div>
   </div>
   <p class="content"><slot></slot></p>

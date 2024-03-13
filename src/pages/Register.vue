@@ -1,9 +1,37 @@
 <script>
+import {Routes} from "@/util/routes.js";
+
 export default {
   name: "Register",
+  data() {
+    return {
+      username: "",
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    };
+  },
   methods: {
-    register() {
-      void 0;
+    async register() {
+      if (this.password !== this.confirmPassword) {
+        // TODO replace with html alert
+        return alert("Passwords do not match");
+      }
+      const requestBody = JSON.stringify({
+        username: this.username,
+        email: this.email,
+        password: this.password,
+        name: this.name
+      });
+      const response = await fetch(Routes.registerAccount(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: requestBody,
+      });
+      console.log(response);
     }
   }
 }
@@ -14,17 +42,17 @@ export default {
   <form @submit="register">
     <h2>Register</h2>
     <div class="mb-3">
-      <input type="text" placeholder="Enter your username" aria-label="Username">
+      <input v-model="username" type="text" placeholder="Enter your username" aria-label="Username" required>
     </div>
     <div class="mb-3">
-      <input type="text" placeholder="Enter your name" aria-label="Name">
+      <input v-model="name" type="text" placeholder="Enter your name" aria-label="Name" required>
     </div>
     <div class="mb-3">
-      <input type="email" placeholder="Enter your email" aria-label="Email">
+      <input v-model="email" type="email" placeholder="Enter your email" aria-label="Email" required>
     </div>
     <div class="mb-3 input-group">
-      <input type="password" placeholder="Enter your password" aria-label="Password">
-      <input type="password" placeholder="Confirm your password" aria-label="Confirm Password">
+      <input v-model="password" type="password" placeholder="Enter your password" aria-label="Password" required>
+      <input v-model="confirmPassword" type="password" placeholder="Confirm your password" aria-label="Confirm Password" required>
     </div>
     <input type="submit" value="Register">
   </form>

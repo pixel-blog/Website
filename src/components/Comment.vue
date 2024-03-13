@@ -27,7 +27,7 @@ export default {
   <div>
     <p>@{{username}}</p>
     <p>{{message}}</p>
-    <LikeDislike />
+    <LikeDislike :likes="10" :dislikes="10" />
   </div>
 </div>
 </template>
