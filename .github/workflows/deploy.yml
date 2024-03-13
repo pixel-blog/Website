@@ -1,4 +1,7 @@
 name: Deployment
+permissions:
+  contents: read
+  pages: write
 on:
   push:
     branches: [main]
